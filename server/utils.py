@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import urllib.request
 
 YOLO_WEIGHTS = "./yolo/yolov3.weights"
 YOLO_CFG = "./yolo/yolov3.cfg"
@@ -168,3 +169,23 @@ def save_image(img, path):
 
 	cv2.imwrite(path, img)
 	return path
+
+
+def download_file(url, destination):
+	response = urllib.request.urlopen(url)
+	total_size = int(response.headers['Content-Length'])
+	bytes_downloaded = 0
+	block_size = 1024  # Adjust the block size as needed
+	print(f"Total size: {round(total_size / block_size ** 2,2)} MB")
+	
+	with open(destination, 'wb') as file:
+		while True:
+			buffer = response.read(block_size)
+			if not buffer:
+				break
+			bytes_downloaded += len(buffer)
+			file.write(buffer)
+			status = f" {round( bytes_downloaded / block_size ** 2,2)} / {round(total_size / block_size ** 2,2)} MB downloaded"
+			print(status, end='\r')  # Print progress without new line
+	
+	print()  # Print a new line after download completes

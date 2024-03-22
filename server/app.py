@@ -4,11 +4,12 @@ from uuid import uuid4
 import os
 import utils
 from flask_cors import CORS
+import requests
 
 app = Flask(__name__, static_url_path='/media/', static_folder='media/') 
 UPLOAD_FOLDER = 'media/images/'
 RESULT_FOLDER = 'media/results/'
-CARS_CASCADE = 'cascades/cars.xml'
+YOLO_PATH = 'yolo/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
 
@@ -38,6 +39,16 @@ def home():
   
 
 
-if __name__ == '__main__': 
-  
-    app.run(debug = True) 
+if __name__ == '__main__':
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+    if not os.path.exists(RESULT_FOLDER):
+        os.makedirs(RESULT_FOLDER)
+    if not os.path.exists(YOLO_PATH):
+        os.makedirs(YOLO_PATH)
+    if not os.path.exists(f"{YOLO_PATH}yolov3.weights"):
+        print("Downloading YOLO V3 weights .... This might taka a while")
+        url = "https://github.com/patrick013/Object-Detection---Yolov3/raw/master/model/yolov3.weights"
+        utils.download_file(url, f"{YOLO_PATH}yolov3.weights")
+    print("Starting the server ...")
+    app.run(debug = True,host='0.0.0.0') 
