@@ -146,7 +146,7 @@
     margin: 10px;
     padding: 20px;
     border-radius: 20px;
-    background: rgb(36, 50, 72);
+    background: rgba(36, 50, 72, 0.451);
     gap: 20px;
     & img {
       width: calc(50vw - 80px);
