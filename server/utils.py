@@ -51,7 +51,7 @@ def get_box_dimensions(outputs, height, width):
 	return boxes, confs, class_ids
 
 
-def draw_labels(boxes, confs, colors, class_ids, classes, img): 
+def draw_labels(boxes, confs, colors:list, class_ids, classes, img): 
 	indexes = cv2.dnn.NMSBoxes(boxes, confs, 0.5, 0.4)
 	font = cv2.FONT_HERSHEY_PLAIN
 	label_counter = {
@@ -66,12 +66,11 @@ def draw_labels(boxes, confs, colors, class_ids, classes, img):
 		if i in indexes:
 			x, y, w, h = boxes[i]
 			label = str(classes[class_ids[i]])
-			print(label)
 			if label in label_counter.keys():
 				label_counter[label] += 1
-				color = colors[0]
+				color = colors[i] if i < 80 else colors[0]
 				cv2.rectangle(img, (x,y), (x+w, y+h), color, 2)
-				cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
+				cv2.putText(img, label, (x, y - 5), font, 1, color, 2)
 	return img, label_counter
 
 def image_detect(img_path): 
