@@ -1,4 +1,4 @@
-import { Route, Router, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import "./App.css";
 import { TopBar } from "./components/TopBar/TopBar";
 import { Home } from "./pages/Home/Home";
