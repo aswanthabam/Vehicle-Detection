@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "vehicle-detection",
     "public": "client/dist",
     "ignore": [
       "firebase.json",
