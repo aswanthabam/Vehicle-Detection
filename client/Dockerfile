@@ -1,28 +1,29 @@
-# Use Node.js LTS version as the base image
-FROM node:14 as builder
+# Use the official Node.js runtime as the base image
+FROM node:18 as build
 
-# Set the working directory inside the container
-WORKDIR /client
+# Set the working directory in the container
+WORKDIR /app
 
-# Copy package.json and package-lock.json (if present) to the working directory
+# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the entire project directory to the working directory
+# Copy the entire application code to the container
 COPY . .
 
 # Build the React app for production
 RUN npm run build
 
-# Use Nginx to serve the built React app
+# Use Nginx as the production server
 FROM nginx:alpine
 
-# Copy the built React app from the builder stage to the Nginx server directory
-COPY --from=builder /client/dist /usr/share/nginx/html
+# Copy the built React app to Nginx's web server directory
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 80
+# Expose port 80 for the Nginx server
 EXPOSE 80
 
-# Command to start Nginx when the container starts
+# Start Nginx when the container runs
+CMD ["nginx", "-g", "daemon off;"]
