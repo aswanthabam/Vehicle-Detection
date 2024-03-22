@@ -14,8 +14,20 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
 
 @app.route('/process', methods = ['GET', 'POST']) 
-def home(): 
-    
+def home():
+    if request.method == 'GET':
+        return Response("Welcome to the object detection API", {
+            "images":[
+                f"{request.url_root}media/images/{x}" for x in os.listdir(UPLOAD_FOLDER)
+            ],
+            "results":[
+                f"{request.url_root}media/results/{x}" for x in os.listdir(RESULT_FOLDER)
+            ]
+        }).send_success_response(200)
+    for file in os.listdir(UPLOAD_FOLDER):
+        os.remove(os.path.join(UPLOAD_FOLDER, file))
+    for file in os.listdir(RESULT_FOLDER):
+        os.remove(os.path.join(RESULT_FOLDER, file))
     if(request.method == 'POST'): 
         if 'file' not in request.files:
             return Response("No file part", {}).send_failiure_response(400)
@@ -37,6 +49,13 @@ def home():
             }).send_success_response(200)
     return Response("Method not allowed", {}).send_failiure_response(405)
   
+@app.route('/delete', methods = ['GET']) 
+def delete_files():
+    for file in os.listdir(UPLOAD_FOLDER):
+        os.remove(os.path.join(UPLOAD_FOLDER, file))
+    for file in os.listdir(RESULT_FOLDER):
+        os.remove(os.path.join(RESULT_FOLDER, file))
+    return Response("Files deleted successfully", {}).send_success_response(200)
 
 
 if __name__ == '__main__':
