@@ -4,9 +4,10 @@ This project aims to build a website which detects different types of vehicles f
 
 ## Setup and Running
 
-- First clone the repo.
+- First clone the repo. and move to the folder
     ```bash
     git clone https://github.com/aswanthabam/Vehicle-Detection
+    cd Vehicle-Detection
     ```
 - Make sure you installed Docker, get installation instructions from [here](https://docs.docker.com/engine/install/) 
 - Then use docker compose to run the server, First build 
