@@ -8,7 +8,27 @@
 .app {
     background: #111111;
     color: #dbdbdb;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
-    overflow: auto;
+    overflow-y: scroll;
 }
+
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #cf66ff40;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #07a0f9;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f51cc2;
+  }

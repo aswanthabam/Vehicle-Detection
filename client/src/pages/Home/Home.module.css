@@ -4,18 +4,59 @@
   flex-direction: column;
   align-items: center;
 
-  h1 {
-    font-weight: 700;
-    margin: 10px;
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    height: 300px;
+    width: 300px;
+    flex-direction: column;
+    border: 2px dashed #00adf7;
+    border-radius: 5px;
+
+    & img {
+      width: 70px;
+      height: 70px;
+    }
+
   }
+
+  #upload {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    .introduction {
+      h1 {
+        font-weight: 700;
+        margin: 20px;
+        text-align: center;
+
+      }
+      width: calc(50% - 100px);
+      padding: 25px;
+      text-align: justify;
+      margin: 0 25px;
+    }
+    .mainUpload {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  
   .buttonContainer {
     width: 100%;
     display: flex;
     justify-content: end;
   }
   button {
-    top: 10px;
-    right: 10px;
     width: auto;
     padding: 10px 20px;
     margin: 10px;
@@ -27,9 +68,15 @@
     display: flex;
     gap: 6px;
     align-items: center;
+    margin-top: 40px;
   }
 
   .dropZone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
     height: 300px;
     width: 300px;
     border: 2px dashed #00adf7;
@@ -38,6 +85,16 @@
     text-align: center;
     cursor: pointer;
     margin: 20px 0;
+    font-size: 20px;
+    color: #ffffff90;
+
+    & svg {
+      width: 30px;
+      height: 30px;
+    }
+    & div {
+      font-size: 10px;
+    }
   }
 
   .resultData {
@@ -72,7 +129,13 @@
       }
     }
   }
-
+  .resultImageContainer {
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+  }
   .resultImages {
     display: flex;
     flex-wrap: wrap;
@@ -82,12 +145,57 @@
     margin: 10px;
     padding: 20px;
     border-radius: 20px;
-    background: rgb(95, 95, 95);
+    background: rgb(36, 50, 72);
     gap: 20px;
     & img {
       width: calc(50vw - 80px);
       height: auto;
       display: block;
+      border-radius: 10px;
+    }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .home {
+    #upload {
+      margin-top: 20px;
+      flex-direction: column;
+      padding: 0;
+      height: auto;
+      min-height: 100vh;
+      .introduction {
+        h1 {
+          font-weight: 700;
+          margin: 20px;
+          text-align: center;
+          font-size: 25px;
+        }
+        p {
+          font-size: 15px;
+        }
+        width: 100%;
+      };
+      .mainUpload {
+        width: 100%;
+      }
+    }
+
+    .resultImages {
+      padding: 10px;
+      flex-direction: column;
+      margin: 0;
+      width: calc(100% - 20px);
+      & img {
+        width: 100%;
+      }
+    }
+    .buttonContainer {
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    h2 {
+      text-align: center;
     }
   }
 }
