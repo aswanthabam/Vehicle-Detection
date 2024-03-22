@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from uuid import uuid4
 
 YOLO_WEIGHTS = "./yolo/yolov3.weights"
 YOLO_CFG = "./yolo/yolov3.cfg"
@@ -62,15 +61,28 @@ def draw_labels(boxes, confs, colors:list, class_ids, classes, img):
 		"bicycle": 0,
 		"person": 0
 	}
+	label_colors = {
+		"car": (0, 255, 0),
+		"truck": (0, 0, 255),
+		"bus": (255, 0, 0),
+		"motorbike": (255, 255, 0),
+		"bicycle": (0, 255, 255),
+		"person": (255, 0, 255)
+	}
+
 	for i in range(len(boxes)):
 		if i in indexes:
 			x, y, w, h = boxes[i]
 			label = str(classes[class_ids[i]])
 			if label in label_counter.keys():
 				label_counter[label] += 1
-				color = colors[i] if i < 80 else colors[0]
-				cv2.rectangle(img, (x,y), (x+w, y+h), color, 2)
-				cv2.putText(img, label, (x, y - 5), font, 1, color, 2)
+				color = label_colors[label]
+				shapes = np.zeros_like(img, np.uint8)
+				cv2.rectangle(shapes, (x,y), (x+w, y+h), color)
+				alpha = 0.00001
+				mask = shapes.astype(bool)
+				img[mask] = cv2.addWeighted(img, alpha, shapes, 1- alpha, 0)[mask]
+				cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
 	return img, label_counter
 
 def image_detect(img_path): 
