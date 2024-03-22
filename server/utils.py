@@ -112,10 +112,11 @@ def draw_labels(boxes, confs, class_ids, classes, img):
 				label_counter[label] += 1
 				color = label_colors[label]
 				shapes = np.zeros_like(img, np.uint8)
-				cv2.rectangle(shapes, (x,y), (x+w, y+h), color)
-				alpha = 0.00001
+				cv2.rectangle(shapes, (x,y), (x+w, y+h), color, cv2.FILLED)
+				alpha = 0.6
 				mask = shapes.astype(bool)
 				img[mask] = cv2.addWeighted(img, alpha, shapes, 1- alpha, 0)[mask]
+				cv2.rectangle(img, (x,y), (x+w, y+h), color)
 				cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
 	return img, label_counter
 
@@ -164,6 +165,6 @@ def save_image(img, path):
 	:param path: path to save the image
 	:return: path
 	"""
-	
+
 	cv2.imwrite(path, img)
 	return path
