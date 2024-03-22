@@ -1,5 +1,5 @@
 media
 venv
-yolo
-# __pycache__
-# *.pyc
+*.weights
+__pycache__
+*.pyc
