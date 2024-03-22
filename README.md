@@ -31,4 +31,3 @@ This project aims to build a website which detects different types of vehicles f
 > For any queries, contact : aswanth.abam@gmail.com
 
 > Hosted on : https://vehicle-detection.web.app/, But better run it locally the hosting is highly rate limited and sometimes become unaccessible.
-> Don
