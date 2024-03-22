@@ -14,8 +14,14 @@ export const Home = () => {
     setLoading(true);
     var res = await processImage(file);
     setResponse(res);
-    resultRef.current?.scrollIntoView();
     setLoading(false);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(true);
+      }, 100);
+    }).then(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    });
   };
   return (
     <div className={styles.home}>
@@ -78,7 +84,7 @@ export const Home = () => {
               <button
                 className={styles.uploadButton}
                 onClick={() => {
-                  uploadRef.current?.scrollIntoView();
+                  uploadRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
                 }}
               >
                 <svg
