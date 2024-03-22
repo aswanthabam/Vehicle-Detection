@@ -1,0 +1,93 @@
+.home {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-weight: 700;
+    margin: 10px;
+  }
+  .buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
+  button {
+    top: 10px;
+    right: 10px;
+    width: auto;
+    padding: 10px 20px;
+    margin: 10px;
+    background: #00adf7;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .dropZone {
+    height: 300px;
+    width: 300px;
+    border: 2px dashed #00adf7;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin: 20px 0;
+  }
+
+  .resultData {
+    width: 100%;
+    h2 {
+      display: block;
+      margin: 20px;
+      font-weight: 600;
+    }
+    .result {
+      width: 100%;
+      .row {
+        display: flex;
+        width: 100%;
+        .cell {
+          width: calc(70% - 20px);
+          border-bottom: 1px solid #ddd;
+          padding: 10px;
+          border-right: 1px solid #ddd;
+        }
+        .cell:nth-child(1) {
+          width: 30%;
+          border-left: 1px solid #ddd;
+        }
+      }
+      .row:nth-child(1) {
+        border-top:  1px solid #ddd;
+      }
+      .head {
+        background: #7ba0a0;
+        color: #111;
+      }
+    }
+  }
+
+  .resultImages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+    width: calc(100% - 60px);
+    margin: 10px;
+    padding: 20px;
+    border-radius: 20px;
+    background: rgb(95, 95, 95);
+    gap: 20px;
+    & img {
+      width: calc(50vw - 80px);
+      height: auto;
+      display: block;
+    }
+  }
+}

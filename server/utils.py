@@ -18,9 +18,10 @@ def load_yolo():
 
 def load_image(img_path):   
 	img = cv2.imread(img_path)
+	org_img = img.copy()
 	img = cv2.resize(img, None, fx=0.4, fy=0.4)
 	height, width, channels = img.shape
-	return img, height, width, channels
+	return img, height, width, channels, org_img
 
 def detect_objects(img, net, outputLayers):			
 	blob = cv2.dnn.blobFromImage(img, scalefactor=0.00392, size=(320, 320), mean=(0, 0, 0), swapRB=True, crop=False)
@@ -50,7 +51,7 @@ def get_box_dimensions(outputs, height, width):
 	return boxes, confs, class_ids
 
 
-def draw_labels(boxes, confs, colors:list, class_ids, classes, img): 
+def draw_labels(boxes, confs, colors:list, class_ids, classes, img,  width_ration=1, height_ratio=1): 
 	indexes = cv2.dnn.NMSBoxes(boxes, confs, 0.5, 0.4)
 	font = cv2.FONT_HERSHEY_PLAIN
 	label_counter = {
@@ -73,6 +74,7 @@ def draw_labels(boxes, confs, colors:list, class_ids, classes, img):
 	for i in range(len(boxes)):
 		if i in indexes:
 			x, y, w, h = boxes[i]
+			x,y,w,h = x * width_ration, y * height_ratio, w * width_ration, h * height_ratio
 			label = str(classes[class_ids[i]])
 			if label in label_counter.keys():
 				label_counter[label] += 1
@@ -87,12 +89,29 @@ def draw_labels(boxes, confs, colors:list, class_ids, classes, img):
 
 def image_detect(img_path): 
 	model, classes, colors, output_layers = load_yolo()
-	image, height, width, channels = load_image(img_path)
+	image, height, width, channels, org_img = load_image(img_path)
 	blob, outputs = detect_objects(image, model, output_layers)
 	boxes, confs, class_ids = get_box_dimensions(outputs, height, width)
-	img, label_counter = draw_labels(boxes, confs, colors, class_ids, classes, image)
+	b = [convert_rectangle((height, width), (org_img.shape[0],org_img.shape[1]), box) for box in boxes]
+	img, label_counter = draw_labels(b, confs, colors, class_ids, classes, org_img)
 	return img, label_counter
+
+def convert_rectangle(resized_img_shape, original_img_shape, rectangle):
+	print(resized_img_shape, original_img_shape, rectangle)
+	scale_x = original_img_shape[1] / resized_img_shape[1]
+	scale_y = original_img_shape[0] / resized_img_shape[0]
 	
+	center_x_resized, center_y_resized, width_resized, height_resized = rectangle
+	
+	center_x_original = int(center_x_resized * scale_x)
+	center_y_original = int(center_y_resized * scale_y)
+	width_original = int(width_resized * scale_x)
+	height_original = int(height_resized * scale_y)
+	x_original = int(center_x_original)
+	y_original = int(center_y_original)
+	
+	return (x_original, y_original, width_original, height_original)
+
 def save_image(img, path):
 	cv2.imwrite(path, img)
 	return path
