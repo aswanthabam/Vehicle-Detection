@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request 
 from response import Response
 from uuid import uuid4
-import os
+import os, sys
 import utils
 from flask_cors import CORS
 import requests
@@ -12,6 +12,9 @@ RESULT_FOLDER = 'media/results/'
 YOLO_PATH = 'yolo/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 CORS(app)
+
+model = utils.YOLO()
+model.load_yolo()
 
 @app.route('/process', methods = ['GET', 'POST']) 
 def home():
@@ -40,7 +43,7 @@ def home():
             filename = f"{uuid4()}.{file.filename.split('.')[-1]}"
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            img, result = utils.image_detect(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            img, result = model.image_detect(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             utils.save_image(img, os.path.join(RESULT_FOLDER, filename))
             return Response("File uploaded successfully", {
                 "result": result,
